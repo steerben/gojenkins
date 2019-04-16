@@ -90,6 +90,12 @@ func (j *Jenkins) Info() (*ExecutorResponse, error) {
 	return j.Raw, nil
 }
 
+// ReloadConfiguration reloads the jenkins configuration in memory
+func (j *Jenkins) ReloadConfiguration() error {
+	_, err := j.Requester.Post("/reload", strings.NewReader(""), struct{}{}, map[string]string{})
+	return err
+}
+
 // SafeRestart jenkins, restart will be done when there are no jobs running
 func (j *Jenkins) SafeRestart() error {
 	_, err := j.Requester.Post("/safeRestart", strings.NewReader(""), struct{}{}, map[string]string{})
